@@ -3,6 +3,7 @@ import 'package:mp_tictactoe/customWidgets/custom_button.dart';
 import 'package:mp_tictactoe/customWidgets/custom_text.dart';
 import 'package:mp_tictactoe/customWidgets/custom_textFields.dart';
 import 'package:mp_tictactoe/responsive/responsive.dart';
+import 'package:mp_tictactoe/utils/socket_methods.dart';
 
 class JoinRoomScreen extends StatefulWidget {
   static String routeName = '/join-room';
@@ -15,13 +16,21 @@ class JoinRoomScreen extends StatefulWidget {
 class _JoinRoomScreenState extends State<JoinRoomScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _gameIdController = TextEditingController();
+ final SocketMethods _socketMethods = SocketMethods();
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _nameController.dispose();
     _gameIdController.dispose();
+  }
+
+  @override
+  void initState() {
+    _socketMethods.joinRoomSuccessListener(context);
+    _socketMethods.errorOccuredListener(context);
+    _socketMethods.updatePlayersStateListener(context);
+    super.initState();
   }
 
   @override
